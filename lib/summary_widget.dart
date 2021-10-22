@@ -39,12 +39,12 @@ class SummaryWidget extends StatelessWidget {
               ListTile(
                 leading: Text('${monthWordCounts[projectName]}'),
                 trailing: Text('${monthWordCounts[projectName]}'),
-                title: Text('month of ${dateTime.month}-${dateTime.year}'),
+                title: Text('Month of ${dateTime.month}-${dateTime.year}'),
               ),
               ListTile(
                 leading: Text('${weekWordCounts[projectName]}'),
                 trailing: Text('${weekWordCounts[projectName]}'),
-                title: Text('week of ${formatter.format(dateTime)}'),
+                title: Text('Week of ${formatter.format(dateTime)}'),
               ),
             ],
           );
