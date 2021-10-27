@@ -63,7 +63,7 @@ class WritingProject {
   /// Sunday is considered the first day of the week.
   int getWeekWordCount(DateTime day) {
     DateTime sunday = day;
-    while (sunday.weekday != DateTime.saturday) {
+    while (sunday.weekday != DateTime.sunday) {
       sunday = sunday.subtract(const Duration(days: 1));
     }
     DateTime firstDay = sunday;
