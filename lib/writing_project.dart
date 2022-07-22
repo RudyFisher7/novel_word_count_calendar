@@ -66,10 +66,13 @@ class WritingProject {
     while (sunday.weekday != DateTime.sunday) {
       sunday = sunday.subtract(const Duration(days: 1));
     }
-    DateTime firstDay = sunday;
-    DateTime lastDay = sunday.add(const Duration(days: 8));
+    DateTime firstDay = sunday.subtract(const Duration(days: 1));
+    DateTime lastDay = sunday.add(const Duration(days: 7));
 
-    return _getWordCountHelper(firstDay, lastDay);
+    return _getWordCountHelper(
+      firstDay,
+      lastDay,
+    );
   }
 
   /// Gets the word count for the entire month the given [day] is in.
@@ -86,7 +89,10 @@ class WritingProject {
     int sum = 0;
 
     for (DateTime date in _writingEventsByDateTime.keys) {
-      if (date.isBefore(lastDay) && date.isAfter(firstDay)) {
+      int comparedToFirstDay = _compareDates(firstDay, date);
+      int comparedToLastDay = _compareDates(date, lastDay);
+
+      if (comparedToFirstDay < 0 && comparedToLastDay < 0) {
         List<WritingEvent> events = _writingEventsByDateTime[date] ?? [];
         for (WritingEvent event in events) {
           sum += event.wordCount;
@@ -95,6 +101,39 @@ class WritingProject {
     }
 
     return sum;
+  }
+
+  /// Compares [date1] with [date2]. If [date1] comes before [date2], returns
+  /// a negative number, if after, returns a positive number, otherwise returns
+  /// 0.
+  int _compareDates(DateTime date1, DateTime date2) {
+    int result = 0;
+
+    // If the years are different, then one date obviously must come before the
+    // other
+    if (date1.year < date2.year) {
+      return -1;
+    } else if (date1.year > date2.year) {
+      return 1;
+    }
+
+    // If the months are different, then one date obviously must come before the
+    // other
+    if (date1.month < date2.month) {
+      return -1;
+    } else if (date1.month > date2.month) {
+      return 1;
+    }
+
+    // If the days are different, then one date obviously must come before the
+    // other
+    if (date1.day < date2.day) {
+      return -1;
+    } else if (date1.day > date2.day) {
+      return 1;
+    }
+
+    return result;
   }
 
   /// Gets [totalWordCount] accross all [WritingEvent]s in this
